@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# Install httpd and unzip
+sudo yum update -y
+sudo yum install httpd -y
+sudo yum install unzip -y
+
+# Start and enable httpd
+sudo systemctl start httpd
+sudo systemctl enable httpd
+
+# --- Website Deployment ---
+# Get the URL for the ZIP file from your GitHub repo
+# It's usually something like: https://github.com/PercivalN/aws_restart/archive/refs/heads/main.zip
+# You must get this URL from your GitHub repo page.
+wget -O /tmp/repo.zip https://github.com/PercivalN/aws_restart/archive/refs/heads/main.zip
+
+# Unzip the archive into the /var/www directory
+unzip /tmp/repo.zip -d /var/www/
+
+# Remove the old html folder
+sudo rm -rf /var/www/html
+
+# Rename the unzipped folder to html
+# The unzipped folder will have a name like 'aws_restart-main'
+sudo mv /var/www/aws_restart-main /var/www/html
+
+# Fix permissions
+sudo chown -R ec2-user:apache /var/www
+sudo chmod 2775 /var/www
+find /var/www -type d -exec sudo chmod 2775 {} \;
+find /var/www -type f -exec sudo chmod 0664 {} \;
+
+
+# Step 1: Test out copying folder to /var/www directory and put it in the new html folder
+# step 2: Test out permissions
+# Step 3: Up load the Scenic Atlas file to GitHub and test it out
+# Step 4: Save the DB to a file on Github
+# Step 5: Add a script to download the DB file and put it in the right place
