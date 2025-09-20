@@ -1,0 +1,6 @@
+# Copying a file from an EC2 instance to my local machine
+scp -i /path/to/your-key.pem <user>@<ec2-public-dns>:/path/to/remote/file /path/to/local/directory
+
+scp -i ~/.ssh/my-key.pem ec2-user@ec2-54-123-45-67.compute-1.amazonaws.com:/var/www/html/index.html ~/Documents/
+
+sudo scp -i ~/labsuser.pem ec2-user@35.89.130.114:/home/ec2-user/sysops-activity-files/starters/create-lamp-instance-v2.sh ~/AWS/aws_restart/
