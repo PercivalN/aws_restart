@@ -1,13 +1,22 @@
 #!/bin/bash
 
+# Install Apache web server
+# Starts and enables Apache to launch on boot
 sudo yum update -y
 sudo yum install httpd -y
 sudo systemctl start httpd
 sudo systemctl enable httpd
 
 
-
+# Recursively changes the ownership of the /var/www directory and 
+# its contents to the 'ec2-user' and the 'apache' group.
 sudo chown -R ec2-user:apache /var/www
+# Sets the permissions of the /var/www directory to allow read, write,
 sudo chmod 2775 /var/www
+# Finds all directories within /var/www and changes their permissions to 2775 
+# (read, write, and execute for the owner and group, with the SetGID bit enabled, and read and execute for others).
 find /var/www -type d -exec sudo chmod 2775 {} \;
+# `0664` is an octal permission code: `0` for no special permissions, 
+# the first `6` for read/write access for the owner, the second `6` for
+# read/write access for the group, and `4` for read-only access for others.
 find /var/www -type f -exec sudo chmod 0664 {} \;
